@@ -1,0 +1,7 @@
+{
+  "versionCode": 17,
+  "versionName": "1.5.8",
+  "downloadUrl": "https://github.com/Ismantic/Handwritten/releases/download/v1.5.8/writeread-v1.5.8-release.apk",
+  "changelog": "v1.5.8：新增「在线检查更新」功能。打开写读板会自动检查是否有新版本，也可在 设置→检查更新 手动检查；有新版时可直接下载安装。",
+  "sha256": ""
+}
