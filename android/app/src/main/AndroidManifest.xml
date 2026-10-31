@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 写读板：手写识别与朗读全程离线。v1.5.8 起仅用于"检查/下载应用更新"时联网，不收集、不上传任何数据。 -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
@@ -8,14 +13,54 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HCCR">
 
+        <!-- v1.5.8：在线更新下载的 APK 通过 FileProvider 共享给系统安装器 -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- 首页：三个分类入口（汉字学习 / 英文学习 / 设置） -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HCCR.Panel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 手写板：由首页带 mode(chinese/english) 启动，全屏 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="sensor"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
+            android:resizeableActivity="true"
+            android:theme="@style/Theme.HCCR" />
+
+        <!-- 设置页 -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HCCR.Panel" />
+
+        <!-- 文本转语音设置 -->
+        <activity
+            android:name=".TtsSettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HCCR.Panel" />
+
+        <!-- 帮助说明 -->
+        <activity
+            android:name=".HelpActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HCCR.Panel" />
 
     </application>
 

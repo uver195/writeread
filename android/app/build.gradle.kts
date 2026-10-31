@@ -1,4 +1,4 @@
-import java.io.File
+﻿import java.io.File
 import java.util.Properties
 
 plugins {
@@ -19,11 +19,11 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.shiyu.hccr"
+        applicationId = "com.writeread.handwritten"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 20
+        versionName = "1.5.11"
 
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
@@ -61,6 +61,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        encoding = "UTF-8"
     }
 
     externalNativeBuild {
@@ -80,3 +81,5 @@ android {
 dependencies {
     implementation("androidx.core:core:1.15.0")
 }
+
+

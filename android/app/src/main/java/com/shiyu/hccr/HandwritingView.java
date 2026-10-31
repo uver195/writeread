@@ -90,6 +90,11 @@ public class HandwritingView extends View {
         return strokes.isEmpty();
     }
 
+    /** 当前笔画数（用于“朗读完成后自动清空”时判断画布是否已被用户改动）。 */
+    public int getStrokeCount() {
+        return strokes.size();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

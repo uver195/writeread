@@ -56,7 +56,7 @@ public final class HCCRRecognizer implements AutoCloseable {
 
     private static String[] loadCharset(AssetManager assets, String name) throws IOException {
         try (InputStream stream = assets.open(name)) {
-            JSONObject root = new JSONObject(new String(stream.readAllBytes(), StandardCharsets.UTF_8));
+            JSONObject root = new JSONObject(new String(readAllBytes(stream), StandardCharsets.UTF_8));
             String[] chars = new String[root.getInt("num_classes")];
             JSONObject map = root.getJSONObject("char_to_idx");
             java.util.Iterator<String> it = map.keys();
@@ -69,6 +69,17 @@ public final class HCCRRecognizer implements AutoCloseable {
         } catch (Exception e) {
             throw new IOException("手写字表加载失败: " + name, e);
         }
+    }
+
+    /** InputStream → byte[]：兼容 Android 7~12（readAllBytes 仅 API 33+ 才有，需自行实现）。 */
+    private static byte[] readAllBytes(InputStream in) throws IOException {
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        byte[] buf = new byte[8192];
+        int n;
+        while ((n = in.read(buf)) != -1) {
+            out.write(buf, 0, n);
+        }
+        return out.toByteArray();
     }
 
     public static final class Result {

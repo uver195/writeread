@@ -1,7 +1,7 @@
 {
-  "versionCode": 17,
-  "versionName": "1.5.8",
-  "downloadUrl": "https://github.com/Ismantic/Handwritten/releases/download/v1.5.8/writeread-v1.5.8-release.apk",
-  "changelog": "v1.5.8：新增「在线检查更新」功能。打开写读板会自动检查是否有新版本，也可在 设置→检查更新 手动检查；有新版时可直接下载安装。",
-  "sha256": ""
+  "versionCode": 20,
+  "versionName": "1.5.11",
+  "downloadUrl": "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.11/writeread-v1.5.11-release.apk",
+  "changelog": "v1.5.11：测试在线更新流程（版本对比与自动下载安装）。手写识别与朗读仍完全离线。",
+  "sha256": "f2f159497ebe038f8e513aca34347ebd6948d9cf781fbc58138b6319eaad5484"
 }

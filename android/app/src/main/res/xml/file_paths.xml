@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 写读板 v1.5.8：用于在线更新下载的 APK 安装（FileProvider 共享路径）。 -->
+<paths>
+    <!-- 对应 Context.getExternalFilesDir(null)/updates/ -->
+    <external-files-path name="updates" path="updates/" />
+</paths>

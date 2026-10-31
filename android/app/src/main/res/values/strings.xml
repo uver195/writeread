@@ -1,10 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HandWritten</string>
-    <string name="btn_clear">清空</string>
-    <string name="btn_undo">撤销</string>
+    <string name="app_name">写读板</string>
     <string name="status_loading">模型加载中…</string>
-    <string name="status_ready">画字开始(抬笔自动识别)</string>
-    <string name="status_empty">(画板空)</string>
-    <string name="status_top1">top-1: %1$s  %2$.1f%%   推理 %3$d ms</string>
+    <string name="status_ready">写读板已就绪，写完一个字停笔即自动识别朗读</string>
+    <string name="status_waiting">停笔后将识别整字…</string>
+    <string name="status_recognizing">识别中…</string>
+    <string name="status_model_failed">模型加载失败</string>
+    <string name="tts_failed">语音朗读不可用，请检查系统文字转语音（TTS）设置</string>
+    <string name="tts_unavailable">所选语音库未能朗读，已在应用内临时改用系统默认语音（不影响系统设置）；可在 设置→文本转语音 换一个可用语音库</string>
+    <string name="tts_no_zh_voice">未找到中文离线语音，可在 设置→文本转语音 打开系统设置安装，或换一个语音库</string>
+    <string name="empty_canvas">画布为空，请先写字</string>
+
+    <!-- 写读板 v1.5.0 新增 -->
+    <string name="home_subtitle">选择学习模式，开始手写练字</string>
+
+    <string name="item_chinese_title">汉字学习</string>
+    <string name="item_chinese_desc">用手指写汉字，离线识别并朗读组词</string>
+    <string name="item_english_title">英文学习</string>
+    <string name="item_english_desc">写 A–Z 英文字母，离线识别并朗读</string>
+    <string name="item_settings_title">设置</string>
+    <string name="item_settings_desc">文本转语音、关于软件、帮助说明</string>
+
+    <string name="settings_tts">文本转语音</string>
+    <string name="settings_tts_desc">在应用内选择语音库并调节语速/音调（仅本应用生效）</string>
+    <string name="settings_about">关于软件</string>
+    <string name="settings_about_desc">版本信息与来源</string>
+    <string name="settings_help">帮助说明</string>
+    <string name="settings_help_desc">使用方式与常见问题</string>
+
+    <!-- 写读板 v1.5.8 新增：在线更新 -->
+    <string name="settings_update">检查更新</string>
+    <string name="settings_update_desc">检查是否有新版本并下载安装（需联网）</string>
+    <string name="update_found_title">发现新版本</string>
+    <string name="update_found_message">当前 v%1$s → 新版本 v%2$s\n\n更新内容：\n%3$s\n\n建议立即更新。</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_later">稍后再说</string>
+    <string name="update_latest">已是最新版本（v%1$s）</string>
+    <string name="update_check_failed">检查更新失败</string>
+    <string name="update_manifest_bad">更新清单格式不正确</string>
+    <string name="update_downloading">正在下载新版本…</string>
+    <string name="update_download_failed">下载失败</string>
+    <string name="update_hash_mismatch">文件校验失败，已停止安装（请重试）</string>
+    <string name="update_install_unknown_sources">需要允许"安装未知应用"才能更新，正在跳转设置</string>
+
+    <string name="tts_settings_title">文本转语音</string>
+    <string name="tts_settings_hint">选择一个语音库（引擎），并用下方进度条调节语速与音调。列表读取自手机已安装的 TTS 语音，中文、英文共用同一套设置。\n注意：这里的设置只对写读板生效，不会修改系统默认语音库，也不影响其它应用。</string>
+    <string name="tts_open_system_settings">如需安装语音包：打开系统文字转语音设置</string>
+    <string name="tts_engine_label">语音库（引擎）</string>
+    <string name="tts_rate_label">语速</string>
+    <string name="tts_pitch_label">音调</string>
+    <string name="tts_rate_default">1.0x</string>
+    <string name="tts_pitch_default">1.0x</string>
+    <string name="tts_rate_value">%1$sx</string>
+    <string name="tts_pitch_value">%1$sx</string>
+    <string name="tts_follow_system">跟随系统默认</string>
+    <string name="tts_test">测试朗读</string>
+    <string name="tts_reset">恢复默认（跟随系统、语速/音调重置）</string>
+    <string name="tts_reset_done">已恢复默认设置</string>
+    <string name="tts_engine_no_sound">所选语音库未能朗读，已在应用内临时改用系统默认语音（不影响系统设置）</string>
+    <string name="tts_open_system_manual">请手动打开 系统设置 → 文字转语音(TTS) 输出</string>
+
+    <string name="about_title">关于软件</string>
+    <string name="about_text">写读板 v%1$s\n\n一款以离线为主、无广告的安卓手写练字 + 语音朗读工具。手写识别与朗读均在手机本地完成；仅在"检查更新"时联网，不收集、不上传任何数据。\n\n识别模型：中文 MobileNetV2（3755 个 GB2312 一级常用汉字），英文 EMNIST（26 个字母 A–Z）。\n\n基于开源项目 Ismantic/Handwritten 本地改造。</string>
+
+    <string name="hint_write_english">这是英文字母，请到「英文学习」书写</string>
+    <string name="hint_write_chinese">这是汉字，请到「汉字学习」书写</string>
+    <string name="hint_rewrite">没看清，请重写</string>
+    <string name="letter_prefix">字母 </string>
+
+    <string name="mode_ready_chinese">汉字学习：写完一个字停笔即自动识别朗读</string>
+    <string name="mode_ready_english">英文学习：写完字母停笔即自动识别朗读</string>
+
+    <string name="help_content">写读板是什么？\n写读板是一款完全离线的全屏手写练字 + 语音朗读工具。识别与朗读全部在手机本地完成，不需要联网，不需要账号。\n\n首页三个入口\n打开写读板后，首页有三个分类：\n· 汉字学习：进入手写板，只识别中文汉字；\n· 英文学习：进入手写板，只识别英文字母 A–Z；\n· 设置：文本转语音、关于软件、帮助说明。\n\n汉字学习怎么用\n1. 在首页点「汉字学习」，进入全屏画布；\n2. 用手指写一个汉字（可横屏或竖屏，应用自动跟随）；\n3. 写完停笔约 1.5 秒，自动识别整字并朗读，例如写「中」朗读「中国的中」；\n4. 朗读结束画布自动清空，继续写下一个字。\n注意：汉字学习只认汉字，写英文字母会提示「请到英文学习书写」，不会读成汉字。\n\n英文学习怎么用\n1. 在首页点「英文学习」，进入全屏画布；\n2. 用手指写一个大写的英文字母；\n3. 写完停笔约 1.5 秒，自动识别并朗读「字母 X」（如写 A 朗读「字母 A」）；\n4. 朗读结束画布自动清空。\n注意：英文学习只认字母，写汉字会提示「请到汉字学习书写」。\n\n设置 · 文本转语音\n写读板在应用内即可切换语音：进入 设置 → 文本转语音，选择一个语音库（引擎），中文、英文共用同一套设置；再用「语速」「音调」两个进度条调节朗读效果，点「测试朗读」试听，满意即生效。\n重要：这里的切换只对写读板生效，不会修改系统默认语音库，也不影响其它应用。\n若想安装新的语音包，可点页面底部「打开系统文字转语音设置」去安装，装好后返回本页重新选择即可。\n\n没有声音怎么办\n1. 在 设置 → 文本转语音 里换一个语音库（引擎）试试，或点「测试朗读」确认；\n2. 若某语音库（如讯飞）不出声，多半是需要联网或缺失离线包：可点「打开系统文字转语音设置」为其安装中文/英文离线语音包，或改用其它语音库（Google 语音、厂商语音等）；\n3. 若所有引擎都无声，请到手机 设置 → 文字转语音（TTS）输出 检查是否已安装语音包。\n各厂商入口参考：华为 设置→辅助功能→文本转语音；小米/红米 设置→更多设置→语言与输入法→文字转语音；三星 设置→辅助功能→已安装的服务→文本转语音；OPPO 设置→其他设置→无障碍→文本转语音；vivo 设置→快捷与辅助→无障碍→文本转语音。\n\n横竖屏与画布\n应用自动跟随设备姿态切换横竖屏，已写笔画不会丢失。界面没有清空按钮（刻意设计），朗读结束后自动清空。\n\n隐私\n不收集任何数据。手写识别与朗读完全离线，你写的字只在手机内存中用于识别，不保存、不上传。仅在"检查更新"时联网下载新版本安装包，无广告、无第三方统计 SDK。</string>
 </resources>
