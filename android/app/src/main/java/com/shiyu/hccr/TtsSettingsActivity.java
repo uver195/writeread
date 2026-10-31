@@ -3,7 +3,6 @@ package com.shiyu.hccr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,7 +31,7 @@ public class TtsSettingsActivity extends Activity {
     private SeekBar sbRate, sbPitch;
     private TextView tvRateValue, tvPitchValue;
 
-    private final List<TextToSpeech.EngineInfo> engines = new ArrayList<>();
+    private final List<TtsManager.TtsEngine> engines = new ArrayList<>();
     private boolean binding = false;
 
     private static final int PROGRESS_MAX = 150;   // 0.5x ~ 2.0x
@@ -123,7 +122,7 @@ public class TtsSettingsActivity extends Activity {
 
         List<String> labels = new ArrayList<>();
         labels.add(getString(R.string.tts_follow_system));
-        for (TextToSpeech.EngineInfo e : engines) {
+        for (TtsManager.TtsEngine e : engines) {
             String label = (e.label == null || e.label.isEmpty()) ? e.name : e.label;
             labels.add(label + "（" + e.name + "）");
         }

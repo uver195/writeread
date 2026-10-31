@@ -1,7 +1,7 @@
 {
-  "versionCode": 21,
-  "versionName": "1.5.12",
-  "downloadUrl": "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.12/writeread-v1.5.12-release.apk",
-  "changelog": "v1.5.12：新版发布。手写识别与朗读仍完全离线，不收集、不上传任何数据。",
-  "sha256": "9dbb1528972309356db6bfb8aa8fd83aed101d0e5edb6cd701515e31ec95df71"
+  "versionCode": 22,
+  "versionName": "1.5.13",
+  "downloadUrl": "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.13/writeread-v1.5.13-release.apk",
+  "changelog": "v1.5.13：修复荣耀/华为等手机上语音库枚举不全的问题，适配更多第三方语音引擎。手写识别与朗读仍完全离线。",
+  "sha256": "872f31c508f4e35afa42a4085d49dc5c46baf440d30422adc9d93061c6e8d0a3"
 }

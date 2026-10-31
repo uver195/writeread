@@ -1,7 +1,10 @@
 package com.shiyu.hccr;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -310,9 +314,26 @@ public class TtsManager implements TextToSpeech.OnInitListener {
 
     // ---------------- 枚举手机已安装的语音引擎（供设置页使用） ----------------
 
-    public interface EnginesCallback { void onEngines(List<TextToSpeech.EngineInfo> engines); }
+    /**
+     * 应用内自建的引擎描述，避免依赖 TextToSpeech.EngineInfo（其内部字段在部分厂商
+     * ROM 上不可靠，且 getEngines() 在荣耀/华为上只返回系统自带引擎、漏掉第三方）。
+     */
+    public static final class TtsEngine {
+        public final String name;   // 引擎包名
+        public final String label;  // 显示名
+        TtsEngine(String name, String label) { this.name = name; this.label = label; }
+    }
 
-    /** 枚举手机已安装、可被本应用使用的 TTS 引擎（异步，主线程回调）。 */
+    public interface EnginesCallback { void onEngines(List<TtsEngine> engines); }
+
+    /**
+     * 枚举手机已安装、可被本应用使用的 TTS 引擎（异步，主线程回调）。
+     *
+     * v1.5.13 修复：荣耀/华为等 ROM 上 TextToSpeech.getEngines() 只返回系统自带引擎，
+     * 漏掉用户安装的第三方语音库（讯飞、腾讯、各厂商无障碍语音等）。这里在 getEngines()
+     * 基础上，额外用 PackageManager 查询所有声明 android.intent.action.TTS_SERVICE 的
+     * 引擎服务，按包名去重合并，从而列出全部已安装语音库。
+     */
     public static void loadEngines(Context ctx, EnginesCallback cb) {
         final Context app = ctx.getApplicationContext();
         final TextToSpeech[] ref = new TextToSpeech[1];
@@ -320,12 +341,48 @@ public class TtsManager implements TextToSpeech.OnInitListener {
         TextToSpeech.OnInitListener l = status -> {
             if (done[0]) return;
             done[0] = true;
-            List<TextToSpeech.EngineInfo> out = new ArrayList<>();
+
+            // 1) 标准 API：系统可识别的引擎（荣耀上通常只有自带）
+            List<TextToSpeech.EngineInfo> standard = new ArrayList<>();
             if (status == TextToSpeech.SUCCESS && ref[0] != null) {
-                try { out.addAll(ref[0].getEngines()); } catch (Throwable ignored) { }
+                try { standard.addAll(ref[0].getEngines()); } catch (Throwable ignored) { }
             }
             try { if (ref[0] != null) ref[0].shutdown(); } catch (Throwable ignored) { }
-            cb.onEngines(out);
+
+            // 2) PackageManager：所有声明 TTS_SERVICE 的引擎（含第三方，兼容荣耀/华为）
+            List<TtsEngine> pmEngines = new ArrayList<>();
+            try {
+                Intent ttsIntent = new Intent("android.intent.action.TTS_SERVICE");
+                PackageManager pm = app.getPackageManager();
+                List<ResolveInfo> services = pm.queryIntentServices(ttsIntent, 0);
+                for (ResolveInfo ri : services) {
+                    if (ri.serviceInfo == null) continue;
+                    String pkg = ri.serviceInfo.packageName;
+                    if (pkg == null || pkg.isEmpty()) continue;
+                    String label = null;
+                    try {
+                        CharSequence cs = ri.loadLabel(pm);
+                        if (cs != null) label = cs.toString();
+                    } catch (Throwable ignored) { }
+                    if (label == null || label.trim().isEmpty()) label = pkg;
+                    pmEngines.add(new TtsEngine(pkg, label));
+                }
+            } catch (Throwable ignored) { }
+
+            // 3) 合并去重：标准引擎在前，PackageManager 发现的第三方引擎补在后面
+            LinkedHashSet<String> seen = new LinkedHashSet<>();
+            List<TtsEngine> merged = new ArrayList<>();
+            for (TextToSpeech.EngineInfo e : standard) {
+                if (e.name == null || e.name.isEmpty()) continue;
+                if (seen.add(e.name)) {
+                    String label = e.label != null ? e.label : e.name;
+                    merged.add(new TtsEngine(e.name, label));
+                }
+            }
+            for (TtsEngine e : pmEngines) {
+                if (seen.add(e.name)) merged.add(e);
+            }
+            cb.onEngines(merged);
         };
         try {
             ref[0] = new TextToSpeech(app, l);
