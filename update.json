@@ -1,7 +1,7 @@
 {
-  "versionCode": 20,
-  "versionName": "1.5.11",
-  "downloadUrl": "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.11/writeread-v1.5.11-release.apk",
-  "changelog": "v1.5.11：测试在线更新流程（版本对比与自动下载安装）。手写识别与朗读仍完全离线。",
-  "sha256": "f2f159497ebe038f8e513aca34347ebd6948d9cf781fbc58138b6319eaad5484"
+  "versionCode": 21,
+  "versionName": "1.5.12",
+  "downloadUrl": "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.12/writeread-v1.5.12-release.apk",
+  "changelog": "v1.5.12：新版发布。手写识别与朗读仍完全离线，不收集、不上传任何数据。",
+  "sha256": "9dbb1528972309356db6bfb8aa8fd83aed101d0e5edb6cd701515e31ec95df71"
 }
