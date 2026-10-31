@@ -1,0 +1,7 @@
+{
+  "versionCode": 18,
+  "versionName": "1.5.9",
+  "downloadUrl": "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.9/writeread-v1.5.9-release.apk",
+  "changelog": "v1.5.9：修复国内手机无法检查更新的问题（更新地址改用国内可达的 CDN 镜像）。手写识别与朗读仍完全离线。",
+  "sha256": "e3ec7eb114931a10dd579b6e43e12f7ab51d9dd51731ef4d185f60844af971b1"
+}
