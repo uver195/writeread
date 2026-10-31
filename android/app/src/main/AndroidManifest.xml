@@ -6,6 +6,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!-- v1.5.15：荣耀/华为等 Android 11+ 系统有「包可见性过滤」，App 默认看不到第三方
+         TTS 引擎（讯飞等）。声明 <queries> 后 queryIntentServices 才能列出全部语音库。 -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
     <application
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"

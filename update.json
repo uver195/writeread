@@ -1,14 +1,14 @@
 {
-  "versionCode": 23,
-  "versionName": "1.5.14",
-  "downloadUrl": "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
+  "versionCode": 24,
+  "versionName": "1.5.15",
+  "downloadUrl": "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
   "downloadUrls": [
-    "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
-    "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
-    "https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
-    "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
-    "https://ghproxy.cc/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk"
+    "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
+    "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
+    "https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
+    "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
+    "https://ghproxy.cc/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk"
   ],
-  "changelog": "v1.5.14：1) 在线更新改为多镜像自动回退（gh-proxy.com/ghproxy.net/GitHub直连/ghfast.top/ghproxy.cc），解决荣耀手机上 ghfast.top 连接超时导致下载失败的问题；2) 修复荣耀/华为手机文本转语音只显示 1 个语音库的问题，改用 PackageManager 枚举（MATCH_ALL + MATCH_DISABLED_COMPONENTS + 按包逐个查询），可列出讯飞等全部已安装第三方语音引擎。",
-  "sha256": "39c30026b6f1df2a0fe4959df5fe01205780f592063775cf6957e4b28c665fb7"
+  "changelog": "v1.5.15：修复荣耀/华为手机文本转语音只显示 1 个语音库的真正根因——荣耀等 Android 11+ 系统有包可见性过滤，App 未声明 <queries> 时看不到第三方 TTS 引擎。已在 AndroidManifest.xml 增加 <queries> 声明（android.intent.action.TTS_SERVICE），系统放开可见性后即可列出讯飞等全部已安装语音引擎。",
+  "sha256": "af95e1d01ba404c95d6b5d65fd2408330a5f9b5f4f9b19d30fb32e115917e59e"
 }
