@@ -1,0 +1,7 @@
+{
+  "versionCode": 19,
+  "versionName": "1.5.10",
+  "downloadUrl": "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.10/writeread-v1.5.10-release.apk",
+  "changelog": "v1.5.10：更新提示显示版本号（当前 vX → 新版本 vY）；用于测试在线更新流程。手写识别与朗读仍完全离线。",
+  "sha256": "8beae2d076ac0c8badcee3c516bb57f6d809bff614b6090dc8b9185c95d4253e"
+}
