@@ -1,7 +1,14 @@
 {
-  "versionCode": 22,
-  "versionName": "1.5.13",
-  "downloadUrl": "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.13/writeread-v1.5.13-release.apk",
-  "changelog": "v1.5.13：修复荣耀/华为等手机上语音库枚举不全的问题，适配更多第三方语音引擎。手写识别与朗读仍完全离线。",
-  "sha256": "872f31c508f4e35afa42a4085d49dc5c46baf440d30422adc9d93061c6e8d0a3"
+  "versionCode": 23,
+  "versionName": "1.5.14",
+  "downloadUrl": "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
+  "downloadUrls": [
+    "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
+    "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
+    "https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
+    "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk",
+    "https://ghproxy.cc/https://github.com/uver195/writeread/releases/download/v1.5.14/writeread-v1.5.14-release.apk"
+  ],
+  "changelog": "v1.5.14：1) 在线更新改为多镜像自动回退（gh-proxy.com/ghproxy.net/GitHub直连/ghfast.top/ghproxy.cc），解决荣耀手机上 ghfast.top 连接超时导致下载失败的问题；2) 修复荣耀/华为手机文本转语音只显示 1 个语音库的问题，改用 PackageManager 枚举（MATCH_ALL + MATCH_DISABLED_COMPONENTS + 按包逐个查询），可列出讯飞等全部已安装第三方语音引擎。",
+  "sha256": "39c30026b6f1df2a0fe4959df5fe01205780f592063775cf6957e4b28c665fb7"
 }

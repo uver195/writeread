@@ -3,6 +3,7 @@ package com.shiyu.hccr;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
@@ -336,6 +337,7 @@ public class TtsManager implements TextToSpeech.OnInitListener {
      */
     public static void loadEngines(Context ctx, EnginesCallback cb) {
         final Context app = ctx.getApplicationContext();
+        final Handler main = new Handler(Looper.getMainLooper());
         final TextToSpeech[] ref = new TextToSpeech[1];
         final boolean[] done = {false};
         TextToSpeech.OnInitListener l = status -> {
@@ -349,45 +351,80 @@ public class TtsManager implements TextToSpeech.OnInitListener {
             }
             try { if (ref[0] != null) ref[0].shutdown(); } catch (Throwable ignored) { }
 
-            // 2) PackageManager：所有声明 TTS_SERVICE 的引擎（含第三方，兼容荣耀/华为）
-            List<TtsEngine> pmEngines = new ArrayList<>();
-            try {
-                Intent ttsIntent = new Intent("android.intent.action.TTS_SERVICE");
-                PackageManager pm = app.getPackageManager();
-                List<ResolveInfo> services = pm.queryIntentServices(ttsIntent, 0);
-                for (ResolveInfo ri : services) {
-                    if (ri.serviceInfo == null) continue;
-                    String pkg = ri.serviceInfo.packageName;
-                    if (pkg == null || pkg.isEmpty()) continue;
-                    String label = null;
-                    try {
-                        CharSequence cs = ri.loadLabel(pm);
-                        if (cs != null) label = cs.toString();
-                    } catch (Throwable ignored) { }
-                    if (label == null || label.trim().isEmpty()) label = pkg;
-                    pmEngines.add(new TtsEngine(pkg, label));
-                }
-            } catch (Throwable ignored) { }
+            // 2) PackageManager 枚举放后台线程（荣耀/华为上 getEngines() 漏第三方，改用清单查询）
+            new Thread(() -> {
+                List<TtsEngine> pmEngines = enumerateByPackageManager(app);
 
-            // 3) 合并去重：标准引擎在前，PackageManager 发现的第三方引擎补在后面
-            LinkedHashSet<String> seen = new LinkedHashSet<>();
-            List<TtsEngine> merged = new ArrayList<>();
-            for (TextToSpeech.EngineInfo e : standard) {
-                if (e.name == null || e.name.isEmpty()) continue;
-                if (seen.add(e.name)) {
-                    String label = e.label != null ? e.label : e.name;
-                    merged.add(new TtsEngine(e.name, label));
+                // 3) 合并去重：标准引擎在前，PackageManager 发现的第三方引擎补在后面
+                LinkedHashSet<String> seen = new LinkedHashSet<>();
+                List<TtsEngine> merged = new ArrayList<>();
+                for (TextToSpeech.EngineInfo e : standard) {
+                    if (e.name == null || e.name.isEmpty()) continue;
+                    if (seen.add(e.name)) {
+                        String label = e.label != null ? e.label : e.name;
+                        merged.add(new TtsEngine(e.name, label));
+                    }
                 }
-            }
-            for (TtsEngine e : pmEngines) {
-                if (seen.add(e.name)) merged.add(e);
-            }
-            cb.onEngines(merged);
+                for (TtsEngine e : pmEngines) {
+                    if (seen.add(e.name)) merged.add(e);
+                }
+                main.post(() -> cb.onEngines(merged));
+            }).start();
         };
         try {
             ref[0] = new TextToSpeech(app, l);
         } catch (Throwable e) {
             cb.onEngines(new ArrayList<>());
         }
+    }
+
+    /** v1.5.14：PackageManager 枚举全部 TTS 引擎。
+     *  荣耀/华为 ROM 上 queryIntentServices(flag=0) 可能只返回默认引擎，这里：
+     *   a) 加 MATCH_ALL + MATCH_DISABLED_COMPONENTS 标志（API 23+/24+）；
+     *   b) 额外按已安装包逐个查询，兼容部分 ROM 全局查询被过滤的情况；
+     *   c) 标签优先用服务自身 label，其次应用名，最后包名兜底。 */
+    private static List<TtsEngine> enumerateByPackageManager(Context app) {
+        List<TtsEngine> out = new ArrayList<>();
+        try {
+            PackageManager pm = app.getPackageManager();
+            int flags = 0;
+            if (Build.VERSION.SDK_INT >= 23) flags |= PackageManager.MATCH_ALL;
+            if (Build.VERSION.SDK_INT >= 24) flags |= PackageManager.MATCH_DISABLED_COMPONENTS;
+
+            // a) 全局查询
+            Intent ttsIntent = new Intent("android.intent.action.TTS_SERVICE");
+            for (ResolveInfo ri : pm.queryIntentServices(ttsIntent, flags)) {
+                addService(pm, ri, out);
+            }
+            // b) 按包逐个查询（全局查询被 ROM 过滤时的兜底）
+            for (ApplicationInfo ai : pm.getInstalledApplications(PackageManager.GET_META_DATA)) {
+                if (ai == null || ai.packageName == null) continue;
+                Intent scoped = new Intent("android.intent.action.TTS_SERVICE");
+                scoped.setPackage(ai.packageName);
+                for (ResolveInfo ri : pm.queryIntentServices(scoped, flags)) {
+                    addService(pm, ri, out);
+                }
+            }
+        } catch (Throwable ignored) { }
+        return out;
+    }
+
+    private static void addService(PackageManager pm, ResolveInfo ri, List<TtsEngine> out) {
+        if (ri == null || ri.serviceInfo == null) return;
+        String pkg = ri.serviceInfo.packageName;
+        if (pkg == null || pkg.isEmpty()) return;
+        String label = null;
+        try {
+            CharSequence cs = ri.loadLabel(pm);
+            if (cs != null) label = cs.toString();
+        } catch (Throwable ignored) { }
+        if (label == null || label.trim().isEmpty()) {
+            try {
+                CharSequence appLabel = ri.serviceInfo.applicationInfo.loadLabel(pm);
+                if (appLabel != null) label = appLabel.toString();
+            } catch (Throwable ignored) { }
+        }
+        if (label == null || label.trim().isEmpty()) label = pkg;
+        out.add(new TtsEngine(pkg, label));
     }
 }
