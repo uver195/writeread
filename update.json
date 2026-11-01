@@ -1,14 +1,14 @@
 {
-  "versionCode": 25,
-  "versionName": "1.5.16",
-  "downloadUrl": "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
+  "versionCode": 26,
+  "versionName": "1.5.17",
+  "downloadUrl": "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.17/writeread-v1.5.17-release.apk",
   "downloadUrls": [
-    "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
-    "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
-    "https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
-    "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
-    "https://ghproxy.cc/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk"
+    "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.17/writeread-v1.5.17-release.apk",
+    "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.17/writeread-v1.5.17-release.apk",
+    "https://github.com/uver195/writeread/releases/download/v1.5.17/writeread-v1.5.17-release.apk",
+    "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.17/writeread-v1.5.17-release.apk",
+    "https://ghproxy.cc/https://github.com/uver195/writeread/releases/download/v1.5.17/writeread-v1.5.17-release.apk"
   ],
-  "changelog": "v1.5.16：1) 新增「数字学习」分类——写 0-9 数字，离线识别并朗读「数字 X」（EMNIST digits 10 类模型，测试准确率 99.76%）；2) 首页各学习分类副标题提示「写前请先关闭手机读屏软件（无障碍朗读），以免干扰书写」；3) 旧版可一键直达最新版（跨版本更新已支持，无需逐版升级）。",
-  "sha256": "e0f47812ba22938f8253c654c5baa55bb30f69804c2e3ab8704ecfe513b1d5a2"
+  "changelog": "v1.5.17：修复老机型/小屏首页「设置」入口不可见的问题——首页改为可滚动布局（ScrollView），适配小屏、老机型、放大字体等更多配置，四个入口（汉字/英文/数字/设置）始终可达。",
+  "sha256": "8ac6638aac2bb4cdc63e93d87ec3a7e740c242a90be35a44cf852ff7476b7d2a"
 }
