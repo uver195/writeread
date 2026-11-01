@@ -16,6 +16,7 @@ public class HomeActivity extends Activity {
     public static final String EXTRA_MODE = "mode";
     public static final String MODE_CHINESE = "chinese";
     public static final String MODE_ENGLISH = "english";
+    public static final String MODE_DIGITS = "digits";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class HomeActivity extends Activity {
             startWrite(MODE_CHINESE);
         } else if (id == R.id.item_english) {
             startWrite(MODE_ENGLISH);
+        } else if (id == R.id.item_digits) {
+            startWrite(MODE_DIGITS);
         } else if (id == R.id.item_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }

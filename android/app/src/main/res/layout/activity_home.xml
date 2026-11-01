@@ -72,6 +72,28 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/item_digits"
+        style="@style/HomeListItem"
+        android:onClick="onHomeItemClick">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_digits_title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/item_digits_desc"
+            android:textSize="13sp"
+            android:textColor="#777777"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/item_settings"
         style="@style/HomeListItem"
         android:onClick="onHomeItemClick">

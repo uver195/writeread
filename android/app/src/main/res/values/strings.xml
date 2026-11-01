@@ -15,11 +15,18 @@
     <string name="home_subtitle">选择学习模式，开始手写练字</string>
 
     <string name="item_chinese_title">汉字学习</string>
-    <string name="item_chinese_desc">用手指写汉字，离线识别并朗读组词</string>
+    <string name="item_chinese_desc">用手指写汉字，离线识别并朗读组词。@string/item_close_screen_reader</string>
     <string name="item_english_title">英文学习</string>
-    <string name="item_english_desc">写 A–Z 英文字母，离线识别并朗读</string>
+    <string name="item_english_desc">写 A–Z 英文字母，离线识别并朗读。@string/item_close_screen_reader</string>
     <string name="item_settings_title">设置</string>
     <string name="item_settings_desc">文本转语音、关于软件、帮助说明</string>
+
+    <!-- 写读板 v1.5.16 新增：数字学习 + 关闭读屏软件提示 -->
+    <string name="item_digits_title">数字学习</string>
+    <string name="item_digits_desc">写 0–9 数字，离线识别并朗读。@string/item_close_screen_reader</string>
+    <string name="item_close_screen_reader">写前请先关闭手机读屏软件（无障碍朗读），以免干扰书写</string>
+    <string name="number_prefix">数字 </string>
+    <string name="mode_ready_digits">数字学习：写完数字停笔即自动识别朗读</string>
 
     <string name="settings_tts">文本转语音</string>
     <string name="settings_tts_desc">在应用内选择语音库并调节语速/音调（仅本应用生效）</string>

@@ -1,14 +1,14 @@
 {
-  "versionCode": 24,
-  "versionName": "1.5.15",
-  "downloadUrl": "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
+  "versionCode": 25,
+  "versionName": "1.5.16",
+  "downloadUrl": "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
   "downloadUrls": [
-    "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
-    "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
-    "https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
-    "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk",
-    "https://ghproxy.cc/https://github.com/uver195/writeread/releases/download/v1.5.15/writeread-v1.5.15-release.apk"
+    "https://gh-proxy.com/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
+    "https://ghproxy.net/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
+    "https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
+    "https://ghfast.top/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk",
+    "https://ghproxy.cc/https://github.com/uver195/writeread/releases/download/v1.5.16/writeread-v1.5.16-release.apk"
   ],
-  "changelog": "v1.5.15：修复荣耀/华为手机文本转语音只显示 1 个语音库的真正根因——荣耀等 Android 11+ 系统有包可见性过滤，App 未声明 <queries> 时看不到第三方 TTS 引擎。已在 AndroidManifest.xml 增加 <queries> 声明（android.intent.action.TTS_SERVICE），系统放开可见性后即可列出讯飞等全部已安装语音引擎。",
-  "sha256": "af95e1d01ba404c95d6b5d65fd2408330a5f9b5f4f9b19d30fb32e115917e59e"
+  "changelog": "v1.5.16：1) 新增「数字学习」分类——写 0-9 数字，离线识别并朗读「数字 X」（EMNIST digits 10 类模型，测试准确率 99.76%）；2) 首页各学习分类副标题提示「写前请先关闭手机读屏软件（无障碍朗读），以免干扰书写」；3) 旧版可一键直达最新版（跨版本更新已支持，无需逐版升级）。",
+  "sha256": "e0f47812ba22938f8253c654c5baa55bb30f69804c2e3ab8704ecfe513b1d5a2"
 }

@@ -22,8 +22,8 @@ android {
         applicationId = "com.writeread.handwritten"
         minSdk = 24
         targetSdk = 35
-        versionCode = 24
-        versionName = "1.5.15"
+        versionCode = 25
+        versionName = "1.5.16"
 
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")

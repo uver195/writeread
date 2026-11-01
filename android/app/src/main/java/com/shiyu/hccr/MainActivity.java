@@ -46,6 +46,9 @@ public class MainActivity extends Activity implements HandwritingView.StrokeList
     private static final String NCNN_PARAM_EN = "english.ncnn.param";
     private static final String NCNN_BIN_EN   = "english.ncnn.bin";
     private static final String CHARSET_EN    = "english_charset.json";
+    private static final String NCNN_PARAM_DIGITS = "digits.ncnn.param";
+    private static final String NCNN_BIN_DIGITS   = "digits.ncnn.bin";
+    private static final String CHARSET_DIGITS    = "digits_charset.json";
     private static final float CONFIDENCE_THRESHOLD = 0.45f;
     private static final int TOPK = 1;                        // 只取 top-1 用于朗读拼句
     // 停笔静默期：连续书写时不在每次抬手识别，而是等用户停笔 SETTLE_MS 毫秒无新笔画后再识别整字
@@ -58,6 +61,7 @@ public class MainActivity extends Activity implements HandwritingView.StrokeList
     private TextView statusOverlay;
     private HCCRRecognizer recognizer;
     private HCCRRecognizer englishRecognizer;
+    private HCCRRecognizer digitsRecognizer;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable pendingRecognize;
 
@@ -91,10 +95,7 @@ public class MainActivity extends Activity implements HandwritingView.StrokeList
         loadWordsFromAssets();
         initTts();
 
-        showStatus(HomeActivity.MODE_CHINESE.equals(mode)
-                ? getString(R.string.mode_ready_chinese)
-                : getString(R.string.mode_ready_english));
-
+        showStatus(modeText());
         // 加载本地 NCNN 模型（assets 内的 INT8 量化模型，纯本地推理）
         try {
             HCCRRecognizer.loadNativeLibrary("hccr_jni");
@@ -108,11 +109,27 @@ public class MainActivity extends Activity implements HandwritingView.StrokeList
             } catch (IOException | RuntimeException ex) {
                 Log.w(TAG, "english model not loaded (non-fatal)", ex);
             }
+            // 数字模型（0-9），同样仅用于识别；缺失时不影响主功能
+            try {
+                digitsRecognizer = new HCCRRecognizer(getAssets(),
+                        NCNN_PARAM_DIGITS, NCNN_BIN_DIGITS, CHARSET_DIGITS);
+                Log.i(TAG, "digits recognizer ready");
+            } catch (IOException | RuntimeException ex) {
+                Log.w(TAG, "digits model not loaded (non-fatal)", ex);
+            }
         } catch (IOException | RuntimeException e) {
             Log.e(TAG, "model load failed", e);
             showStatus(getString(R.string.status_model_failed) + ": " + e.getMessage(), 0);
             Toast.makeText(this, getString(R.string.status_model_failed), Toast.LENGTH_LONG).show();
         }
+    }
+
+    /** 当前模式对应的就绪提示文案。 */
+    private String modeText() {
+        if (HomeActivity.MODE_DIGITS.equals(mode)) return getString(R.string.mode_ready_digits);
+        return HomeActivity.MODE_CHINESE.equals(mode)
+                ? getString(R.string.mode_ready_chinese)
+                : getString(R.string.mode_ready_english);
     }
 
     // ---------------- 本地 TTS ----------------
@@ -157,6 +174,7 @@ public class MainActivity extends Activity implements HandwritingView.StrokeList
         if (ttsMgr != null) ttsMgr.setOnUtteranceFinished(null);
         if (recognizer != null) recognizer.close();
         if (englishRecognizer != null) englishRecognizer.close();
+        if (digitsRecognizer != null) digitsRecognizer.close();
         super.onDestroy();
     }
 
@@ -236,16 +254,35 @@ public class MainActivity extends Activity implements HandwritingView.StrokeList
             HCCRRecognizer.Result[] cn = recognizer.predict(input, TOPK);
             HCCRRecognizer.Result[] en = (englishRecognizer != null)
                     ? englishRecognizer.predict(input, TOPK) : new HCCRRecognizer.Result[0];
+            HCCRRecognizer.Result[] dg = (digitsRecognizer != null)
+                    ? digitsRecognizer.predict(input, TOPK) : new HCCRRecognizer.Result[0];
             long ms = (System.nanoTime() - t0) / 1_000_000;
 
             boolean chineseMode = HomeActivity.MODE_CHINESE.equals(mode);
+            boolean digitsMode = HomeActivity.MODE_DIGITS.equals(mode);
             float cnProb = cn.length > 0 ? cn[0].probability : 0f;
             float enProb = en.length > 0 ? en[0].probability : 0f;
+            float dgProb = dg.length > 0 ? dg[0].probability : 0f;
             String cnChar = cn.length > 0 ? cn[0].text : "";
             String enChar = en.length > 0 ? en[0].text : "";
+            String dgChar = dg.length > 0 ? dg[0].text : "";
 
             String phrase;
-            if (chineseMode) {
+            if (digitsMode) {
+                if (dgProb >= CONFIDENCE_THRESHOLD) {
+                    phrase = getString(R.string.number_prefix) + dgChar;
+                    Log.i(TAG, "DIGITS mode top1=" + dgChar + " prob=" + dgProb + " ms=" + ms);
+                } else if (cnProb >= CONFIDENCE_THRESHOLD) {
+                    phrase = getString(R.string.hint_write_chinese);
+                    Log.i(TAG, "DIGITS mode but hanzi detected: " + cnChar + "/" + cnProb);
+                } else if (enProb >= CONFIDENCE_THRESHOLD) {
+                    phrase = getString(R.string.hint_write_english);
+                    Log.i(TAG, "DIGITS mode but letter detected: " + enChar + "/" + enProb);
+                } else {
+                    phrase = getString(R.string.hint_rewrite);
+                    Log.i(TAG, "DIGITS mode low conf: DG=" + dgProb + " CN=" + cnProb + " EN=" + enProb);
+                }
+            } else if (chineseMode) {
                 if (cnProb >= CONFIDENCE_THRESHOLD) {
                     phrase = buildPhrase(cnChar);
                     Log.i(TAG, "CN mode top1=" + cnChar + " prob=" + cnProb + " ms=" + ms);
